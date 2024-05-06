@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_login"
+        tools:context=".presentation.ui.login.LoginActivity">
+
+        <ImageView
+            android:id="@+id/iv_login_logo"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/login_logo"
+            android:src="@drawable/ic_logo"
+            tools:layout_editor_absoluteX="157dp"
+            tools:layout_editor_absoluteY="338dp"
+            app:layout_constraint_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/btn_github_login"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginBottom="58dp"
+            android:background="@drawable/bg_login_kakao"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="280:63"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="80dp"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/login_github_button_label"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_login_kakao" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_github_button_label"
+                android:textColor="@color/kakao_login_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
