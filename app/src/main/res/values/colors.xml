@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="kakao_login_color">#181600</color>
+    <color name="primary_color">#FEC123</color>
+    <color name="sub_color">#FFE2A9</color>
+    <color name="background_color">#FFFDF0</color>
+    <color name="black_color">#333333</color>
+    <color name="gray_color">#A4A4A4</color>
+    <color name="light_gray_color">#E5E5E5</color>
+
 </resources>
