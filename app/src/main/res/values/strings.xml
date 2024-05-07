@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">wake_up_bird</string>
+    <string name="app_name">일어나새</string>
     <string name="login_github_button_label">카카오톡으로 로그인</string>
     <string name="login_logo">로그인 로고</string>
 </resources>
