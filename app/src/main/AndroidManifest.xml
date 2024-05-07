@@ -43,6 +43,9 @@
         <activity android:name="com.example.wake_up_bird.presentation.ui.login.InitActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity android:name="com.example.wake_up_bird.presentation.ui.login.RoomActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
