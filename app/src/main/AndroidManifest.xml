@@ -23,6 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".InitInterface.InitActivity"
+            android:exported="true" />
+        <activity
+            android:name=".InitInterface.InitKeypadActivity"
+            android:windowSoftInputMode="stateVisible"
+            android:exported="true" />
+
     </application>
 
 </manifest>
