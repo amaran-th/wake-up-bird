@@ -15,7 +15,7 @@ class InitActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.init_keypad)
+        setContentView(R.layout.init)
 
         val searchButton = findViewById<AppCompatImageButton>(R.id.IBtn_init_keypad_1)
         val roomButton = findViewById<AppCompatImageButton>(R.id.IBtn_init_keypad_2)

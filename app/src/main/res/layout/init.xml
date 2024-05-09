@@ -3,105 +3,254 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/bg_login"
-        tools:context=".InitInferface.InitActivity">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_login"
+            android:visibility="visible"
+            tools:context=".InitInferface.InitKeypadActivity">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="32sp"
-            android:text="인증방 찾기"
-            android:fontFamily="@font/binggrae_bold"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:id="@+id/TV_init_1" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="56sp"
-            android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="322sp"
+                    android:layout_height="32sp"
+                    android:layout_marginTop="100dp"
+                    android:text="인증방 찾기"
+                    android:fontFamily="@font/binggrae_bold"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:id="@+id/TV_init_keypad_1" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="56sp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:layout_width="264sp"
+                    android:layout_height="48sp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/binggrae"
+                    android:hint="초대코드"
+                    android:backgroundTint="#000000"
+                    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+                    android:background="@drawable/ic_init_warning_line"
+                    android:textSize="16sp"
+                    android:id="@+id/ET_init_keypad_1" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_init_search_button"
+                    android:backgroundTint="@color/background_color"
+                    android:contentDescription="초대코드 검색"
+                    android:id="@+id/IBtn_init_keypad_1" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:layout_width="264sp"
-                android:layout_height="48sp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/binggrae"
-                android:hint="초대코드"
-                android:backgroundTint="#000000"
-                android:background="@drawable/ic_init_search_line"
-                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-                android:textSize="16sp"
-                android:id="@+id/ET_init_1" />
+                android:text="찾으려는 인증방이 없으신가요?"
+                android:textColor="#333333"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:id="@+id/TV_init_keypad_2" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/ic_init_search_button"
-                android:contentDescription="초대코드 검색"
-                android:id="@+id/IBtn_init_1" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="80dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/background_color"
+                android:src="@drawable/ic_init_make_room"
+                android:contentDescription="인증방 만들기"
+                android:id="@+id/IBtn_init_keypad_2" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_login"
+            android:visibility="invisible"
+            android:backgroundTint="#B2444444"
+            tools:context=".InitInferface.InitKeypadActivity"
+            android:id="@+id/Frag_code_true">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="200dp"
+                android:clipToOutline="true"
+                android:background="@drawable/rounded_corner"
+                android:src="@drawable/ic_init_password" />
 
-            android:fontFamily="@font/binggrae"
-            android:text="찾으려는 인증방이 없으신가요?"
-            android:textColor="#333333"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:id="@+id/TV_init_2" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24sp"
+                android:text="인증방 이름"
+                android:fontFamily="@font/binggrae_bold"
+                android:textColor="@color/black_color"
+                android:textSize="18sp"
+                android:layout_marginTop="216dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/TV_init_keypad_3" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24sp"
+                android:text="####.##.## 개설 / #명"
+                android:fontFamily="@font/binggrae"
+                android:textColor="@color/gray_color"
+                android:textSize="12sp"
+                android:layout_marginTop="248dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/TV_init_keypad_4" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="200sp"
+                android:layout_height="40sp"
+                android:fontFamily="@font/binggrae"
+                android:hint="비밀번호"
+
+                android:layout_marginTop="288dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/ic_init_search_line"
+                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+                android:textSize="14sp"
+                android:id="@+id/ET_init_keypad_2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="16sp"
+                android:layout_marginTop="330dp"
+                android:layout_marginLeft="107dp"
+                android:visibility="invisible"
+                android:text="비밀번호가 틀렸습니다"
+                android:fontFamily="@font/binggrae"
+                android:textColor="#FF0000"
+                android:textSize="12sp"
+                android:id="@+id/TV_init_keypad_5" />
+
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="350dp"
+                android:layout_marginLeft="100dp"
+                android:backgroundTint="@color/background_color"
+                android:src="@drawable/ic_init_back"
+                android:contentDescription="뒤로가기"
+                android:id="@+id/IBtn_init_keypad_3" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="350dp"
+                android:layout_marginRight="100dp"
+                android:backgroundTint="@color/background_color"
+                android:src="@drawable/ic_init_enter"
+                android:contentDescription="입장하기"
+                android:id="@+id/IBtn_init_keypad_4" />
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_login"
+            android:visibility="invisible"
+            android:backgroundTint="#B2444444"
+            tools:context=".InitInferface.InitKeypadActivity"
+            android:id="@+id/Frag_code_false">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_init_make_room"
-            android:contentDescription="인증방 만들기"
-            android:id="@+id/IBtn_init_2" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="200dp"
+                android:clipToOutline="true"
+                android:background="@drawable/rounded_corner"
+                android:src="@drawable/ic_init_warning" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24sp"
+                android:text="인증방이 없습니다"
+                android:fontFamily="@font/binggrae_bold"
+                android:textColor="@color/black_color"
+                android:textSize="18sp"
+                android:layout_marginTop="216dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/TV_init_keypad_6" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="24sp"
+                android:text="초대코드를 다시 확인해주세요"
+                android:fontFamily="@font/binggrae"
+                android:textColor="@color/gray_color"
+                android:textSize="12sp"
+                android:layout_marginTop="256dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/TV_init_keypad_7" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="288dp"
+                android:backgroundTint="@color/background_color"
+                android:src="@drawable/ic_init_check"
+                android:contentDescription="초대코드 다시 입력하기"
+                android:id="@+id/IBtn_init_keypad_5" />
+
+        </FrameLayout>
+    </FrameLayout>
 </layout>
