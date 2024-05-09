@@ -20,9 +20,9 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
 
     private val mCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            Log.e(Constants.TAG, "로그인 실패 $error")
+            Log.e(LoginConstants.TAG, "로그인 실패 $error")
         } else if (token != null) {
-            Log.d(Constants.TAG, "로그인 성공 ${token.accessToken}")
+            Log.d(LoginConstants.TAG, "로그인 성공 ${token.accessToken}")
             nextMainActivity()
         }
     }
@@ -33,14 +33,14 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                     UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                         if (error != null) {
-                            Log.e(Constants.TAG, "로그인 실패 $error")
+                            Log.e(LoginConstants.TAG, "로그인 실패 $error")
                             if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                                 return@loginWithKakaoTalk
                             } else {
                                 UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback)
                             }
                         } else if (token != null) {
-                            Log.d(Constants.TAG, "로그인 성공 ${token.accessToken}")
+                            Log.d(LoginConstants.TAG, "로그인 성공 ${token.accessToken}")
                             Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                             nextMainActivity()
                         }
@@ -55,9 +55,9 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d(Constants.TAG, "keyhash : ${Utility.getKeyHash(this)}")
+        Log.d(LoginConstants.TAG, "keyhash : ${Utility.getKeyHash(this)}")
 
-        KakaoSdk.init(this, Constants.APP_KEY)
+        KakaoSdk.init(this, LoginConstants.APP_KEY)
         if (AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if (error == null) {

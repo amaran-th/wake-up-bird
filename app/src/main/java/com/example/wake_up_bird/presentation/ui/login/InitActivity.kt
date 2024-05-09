@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wake_up_bird.databinding.InitBinding
 import com.google.android.gms.tasks.Task
@@ -25,9 +23,9 @@ class InitActivity : AppCompatActivity() {
         upref = getSharedPreferences("upref", Activity.MODE_PRIVATE)
         UserApiClient.instance.me { user, error ->
             if (error != null) {
-                Log.e(Constants.TAG, "사용자 정보 요청 실패 $error")
+                Log.e(LoginConstants.TAG, "사용자 정보 요청 실패 $error")
             } else if (user != null) {
-                Log.d(Constants.TAG, "사용자 정보 요청 성공 : $user")
+                Log.d(LoginConstants.TAG, "사용자 정보 요청 성공 : $user")
 
                 searchUser(user.id.toString(), user.kakaoAccount?.profile?.profileImageUrl, user.kakaoAccount?.profile?.nickname)
             }
@@ -51,13 +49,13 @@ class InitActivity : AppCompatActivity() {
                             val colRef: CollectionReference = db.collection("user")
                             val docRef: Task<DocumentReference> = colRef.add(user)
                             docRef.addOnSuccessListener { documentReference ->
-                                Log.d(Constants.TAG,"Sign Up Success : " + "${documentReference.id} \n")
+                                Log.d(LoginConstants.TAG,"Sign Up Success : " + "${documentReference.id} \n")
                                 val ueditor=upref.edit()
                                 ueditor.putString("id",documentReference.id)
                                 ueditor.apply()
                             }
                             docRef.addOnFailureListener {
-                                Log.d(Constants.TAG,"Sign Up Failure \n")
+                                Log.d(LoginConstants.TAG,"Sign Up Failure \n")
                             }
                         }else{
                             val document = result.documents.get(0)
@@ -75,7 +73,7 @@ class InitActivity : AppCompatActivity() {
                         }
             }
             .addOnFailureListener {
-                Log.d(Constants.TAG,"Sign In Failure \n")
+                Log.d(LoginConstants.TAG,"Sign In Failure \n")
             }
     }
 }
