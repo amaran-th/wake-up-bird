@@ -40,10 +40,10 @@
             </intent-filter>
 
         </activity>
-        <activity android:name="com.example.wake_up_bird.presentation.ui.login.InitActivity"
+        <activity android:name="com.example.wake_up_bird.presentation.ui.init.InitActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity android:name="com.example.wake_up_bird.presentation.ui.login.RoomActivity"
+        <activity android:name="com.example.wake_up_bird.presentation.ui.base.NavigationActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>

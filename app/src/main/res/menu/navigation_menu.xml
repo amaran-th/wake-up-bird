@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+       <item
+            android:id="@+id/room"
+            android:enabled="true"
+            android:title="인증방"
+            android:icon="@drawable/outlined_camera"/>
+
+        <item
+            android:id="@+id/statistic"
+            android:enabled="true"
+            android:title="통계"
+            android:icon="@drawable/outlined_bar_chart"/>
+
+        <item
+            android:id="@+id/rest_time"
+            android:enabled="true"
+            android:title="휴식권"
+            android:icon="@drawable/outlined_rest_time"/>
+        <item
+            android:id="@+id/recognition"
+            android:enabled="true"
+            android:title="인정결"
+            android:icon="@drawable/outlined_plane"/>
+</menu>
