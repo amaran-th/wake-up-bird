@@ -8,6 +8,11 @@ android {
     namespace = "com.example.wake_up_bird"
     compileSdk = 34
 
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.wake_up_bird"
         minSdk = 33

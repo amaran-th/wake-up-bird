@@ -28,6 +28,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".InitInterface.InitActivity"
+            android:exported="true" />
+        <activity
+            android:name=".InitInterface.InitKeypadActivity"
+            android:windowSoftInputMode="stateVisible"
+            android:exported="true" />
+
+
         <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>

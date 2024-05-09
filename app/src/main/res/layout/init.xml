@@ -1,30 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/bg_login"
+        tools:context=".InitInferface.InitActivity">
 
-        <TextView
-            android:id="@+id/txtNickName"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="32sp"
+            android:text="인증방 찾기"
+            android:fontFamily="@font/binggrae_bold"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:id="@+id/TV_init_1" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="56sp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="264sp"
+                android:layout_height="48sp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/binggrae"
+                android:hint="초대코드"
+                android:backgroundTint="#000000"
+                android:background="@drawable/ic_init_search_line"
+                android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+                android:textSize="16sp"
+                android:id="@+id/ET_init_1" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_init_search_button"
+                android:contentDescription="초대코드 검색"
+                android:id="@+id/IBtn_init_1" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
 
-        <TextView
-            android:id="@+id/txtAge"
+            android:fontFamily="@font/binggrae"
+            android:text="찾으려는 인증방이 없으신가요?"
+            android:textColor="#333333"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:id="@+id/TV_init_2" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/txtEmail"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_init_make_room"
+            android:contentDescription="인증방 만들기"
+            android:id="@+id/IBtn_init_2" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-    </LinearLayout>
-</LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
