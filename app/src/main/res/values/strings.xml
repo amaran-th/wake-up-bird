@@ -2,4 +2,9 @@
     <string name="app_name">일어나새</string>
     <string name="login_github_button_label">카카오톡으로 로그인</string>
     <string name="login_logo">로그인 로고</string>
+    <string name="make_room">인증방 만들기</string>
+    <string name="back">뒤로가기</string>
+    <string name="enter">입장하기</string>
+    <string name="check">확인</string>
+    <string name="make">만들기</string>
 </resources>
