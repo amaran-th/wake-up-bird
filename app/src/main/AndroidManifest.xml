@@ -48,6 +48,8 @@
         </activity>
         <activity android:name="com.example.wake_up_bird.presentation.ui.init.InitActivity"
             android:exported="false" />
+        <activity android:name="com.example.wake_up_bird.presentation.ui.create_room.CreateRoomActivity"
+            android:exported="false" />
         <activity android:name="com.example.wake_up_bird.presentation.ui.base.NavigationActivity"
             android:exported="false" />
         <activity android:name="com.example.wake_up_bird.presentation.ui.capture.CaptureActivity"

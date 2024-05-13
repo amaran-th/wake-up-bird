@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.identity.credential.android)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation("com.google.android.material:material:1.4.0")
 
     // CameraX
     implementation("androidx.camera:camera-core:1.3.0-alpha04")
