@@ -47,11 +47,11 @@
 
         </activity>
         <activity android:name="com.example.wake_up_bird.presentation.ui.init.InitActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="false" />
         <activity android:name="com.example.wake_up_bird.presentation.ui.base.NavigationActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="false" />
+        <activity android:name="com.example.wake_up_bird.presentation.ui.capture.CaptureActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
