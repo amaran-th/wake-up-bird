@@ -116,7 +116,7 @@ class CreateRoomActivity: AppCompatActivity() {
 
     private fun writeFirebase(name: String, password: String, timeStart: String, timeMiddle: String,
                               timeEnd: String, lateFee: String, absentFee: String) {
-        val randomCode: String = UUID.randomUUID().toString()
+        val randomCode: String = UUID.randomUUID().toString().replace("-", "").take(12)
         val currentDate = getCurrentDate()
         val room = hashMapOf(
             "name" to name,
