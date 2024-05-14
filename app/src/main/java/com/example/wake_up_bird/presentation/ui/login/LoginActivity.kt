@@ -1,6 +1,7 @@
 package com.example.wake_up_bird.presentation.ui.login
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wake_up_bird.Constants
 import com.example.wake_up_bird.databinding.LoginBinding
 import com.example.wake_up_bird.presentation.ui.init.InitActivity
 import com.example.wake_up_bird.presentation.ui.base.NavigationActivity
@@ -30,9 +32,9 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
 
     private val mCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            Log.e(LoginConstants.TAG, "로그인 실패 $error")
+            Log.e(TAG, "로그인 실패 $error")
         } else if (token != null) {
-            Log.d(LoginConstants.TAG, "로그인 성공 ${token.accessToken}")
+            Log.d(TAG, "로그인 성공 ${token.accessToken}")
             nextMainActivity()
         }
     }
@@ -43,14 +45,14 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                     UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                         if (error != null) {
-                            Log.e(LoginConstants.TAG, "로그인 실패 $error")
+                            Log.e(TAG, "로그인 실패 $error")
                             if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                                 return@loginWithKakaoTalk
                             } else {
                                 UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback)
                             }
                         } else if (token != null) {
-                            Log.d(LoginConstants.TAG, "로그인 성공 ${token.accessToken}")
+                            Log.d(TAG, "로그인 성공 ${token.accessToken}")
                             Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                             nextMainActivity()
                         }
@@ -66,9 +68,9 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
         super.onCreate(savedInstanceState)
         upref = getSharedPreferences("upref", Activity.MODE_PRIVATE)
 
-        Log.d(LoginConstants.TAG, "keyhash : ${Utility.getKeyHash(this)}")
+        Log.d(TAG, "keyhash : ${Utility.getKeyHash(this)}")
 
-        KakaoSdk.init(this, LoginConstants.APP_KEY)
+        KakaoSdk.init(this, Constants.LOGIN_APP_KEY)
         if (AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if (error == null) {
@@ -85,9 +87,9 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
     private fun nextMainActivity() {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
-                Log.e(LoginConstants.TAG, "사용자 정보 요청 실패 $error")
+                Log.e(TAG, "사용자 정보 요청 실패 $error")
             } else if (user != null) {
-                Log.d(LoginConstants.TAG, "사용자 정보 요청 성공 : $user")
+                Log.d(TAG, "사용자 정보 요청 성공 : $user")
 
                 searchUser(user.id.toString(), user.kakaoAccount?.profile?.profileImageUrl, user.kakaoAccount?.profile?.nickname)
             }
@@ -110,7 +112,7 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
                     val colRef: CollectionReference = db.collection("user")
                     val docRef: Task<DocumentReference> = colRef.add(user)
                     docRef.addOnSuccessListener { documentReference ->
-                        Log.d(LoginConstants.TAG,"Sign Up Success : " + "${documentReference.id} \n")
+                        Log.d(TAG,"Sign Up Success : " + "${documentReference.id} \n")
                         val ueditor=upref.edit()
                         ueditor.putString("id",documentReference.id)
                         ueditor.apply()
@@ -118,7 +120,7 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
                         finish()
                     }
                     docRef.addOnFailureListener {
-                        Log.d(LoginConstants.TAG,"Sign Up Failure \n")
+                        Log.d(TAG,"Sign Up Failure \n")
                     }
                 }else{
                     // 로그인
@@ -142,7 +144,7 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
                 }
             }
             .addOnFailureListener {
-                Log.d(LoginConstants.TAG,"Sign In Failure \n")
+                Log.d(TAG,"Sign In Failure \n")
             }
     }
 }

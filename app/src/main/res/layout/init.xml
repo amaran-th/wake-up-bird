@@ -129,7 +129,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="200dp"
                 android:clipToOutline="true"
-                android:background="@drawable/rounded_corner"
+                android:background="@drawable/rounded_corner_lv2"
                 android:src="@drawable/bg_login" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -228,7 +228,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="200dp"
                 android:clipToOutline="true"
-                android:background="@drawable/rounded_corner"
+                android:background="@drawable/rounded_corner_lv2"
                 android:src="@drawable/bg_login" />
 
             <androidx.appcompat.widget.AppCompatTextView

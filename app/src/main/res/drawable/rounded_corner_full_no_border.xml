@@ -4,6 +4,4 @@
     <solid android:color="#ffffff"></solid>
     <corners
         android:radius="@dimen/browser_actions_context_menu_max_width"></corners>
-    <stroke android:width="8dp"
-        android:color="@color/gray_color"></stroke>
 </shape>

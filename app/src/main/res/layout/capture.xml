@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context="com.example.wake_up_bird.presentation.ui.capture.CaptureActivity">
 
     <TextView
@@ -62,21 +63,29 @@
             android:id="@+id/after_capture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:gravity="center"
             android:visibility="gone">
 
             <Button
                 android:id="@+id/retry_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/binggrae_regular"
+                android:layout_width="228dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/gray_color"
+                android:background="@drawable/rounded_corner_lv1"
+                android:backgroundTint="@color/light_gray_color"
+                android:fontFamily="@font/binggrae_bold"
                 android:text="다시 찍기" />
 
             <Button
                 android:id="@+id/certify_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/binggrae_regular"
+                android:layout_width="320dp"
+                android:layout_height="74dp"
+                android:textColor="@color/black_color"
+                android:background="@drawable/rounded_corner_lv1"
+                android:backgroundTint="@color/primary_color"
+                android:fontFamily="@font/binggrae_bold"
                 android:text="인증하기" />
         </LinearLayout>
 
@@ -85,7 +94,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_weight="1"
-        android:background="@drawable/circle_round"
+        android:background="@drawable/rounded_corner_full_border"
         android:visibility="visible"
          />
 

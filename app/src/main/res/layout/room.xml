@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:paddingTop="36dp"
     android:paddingHorizontal="20dp"
+    android:background="@color/background_color"
     >
 
     <LinearLayout
@@ -29,6 +30,7 @@
                     android:layout_weight="1"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/binggrae_bold"
+                    android:textColor="@color/black_color"
                     android:text="인증 현황"
                     android:textSize="20sp" />
 
@@ -39,9 +41,11 @@
                     android:layout_weight="1"
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/binggrae_regular"
+                    android:textColor="@color/black_color"
                     android:text="TextView" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/certifications"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -53,7 +57,11 @@
             android:id="@+id/certifyButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="@color/primary_color"
+            android:background="@drawable/rounded_corner_lv1"
             android:fontFamily="@font/binggrae_regular"
+            android:textColor="@color/black_color"
             android:text="인증하기" />
     </LinearLayout>
 

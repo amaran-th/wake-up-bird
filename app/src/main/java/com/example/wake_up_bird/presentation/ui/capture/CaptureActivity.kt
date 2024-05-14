@@ -17,17 +17,29 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import android.Manifest
+import android.app.Activity
+import android.content.SharedPreferences
+import android.net.Uri
 import androidx.camera.core.AspectRatio.RATIO_4_3
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.wake_up_bird.databinding.CaptureBinding
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class CaptureActivity: AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private const val REQUIRED_PERMISSIONS = Manifest.permission.CAMERA
     }
-
+    lateinit var upref: SharedPreferences
+    private lateinit var storage: FirebaseStorage
+    private lateinit var db: FirebaseFirestore
     private lateinit var photoFile: File
     private var imageCapture: ImageCapture? = null
     private lateinit var mBinding: CaptureBinding
@@ -35,10 +47,11 @@ class CaptureActivity: AppCompatActivity() {
     private var cameraController: CameraControl? = null
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
+        upref=getSharedPreferences("upref", Activity.MODE_PRIVATE)
+        storage = FirebaseStorage.getInstance()
+        db = FirebaseFirestore.getInstance()
         mBinding = CaptureBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-
-
 
         // 카메라 권한 확인
         if (allPermissionsGranted()) {
@@ -61,6 +74,18 @@ class CaptureActivity: AppCompatActivity() {
             mBinding.viewFinder.visibility = View.VISIBLE
             mBinding.afterCapture.visibility=View.GONE
             mBinding.btnCapture.visibility=View.VISIBLE
+        }
+        mBinding.certifyButton.setOnClickListener{
+            mBinding.certifyButton.isEnabled=false
+            var timeStamp= SimpleDateFormat("yyyy-MM-dd").format(Date())
+            var imageFileName = timeStamp+"_"+upref.getString("id","none")+".png"
+            var storageRef = storage.reference.child("images").child(imageFileName)
+            storageRef.putFile(Uri.fromFile(photoFile))
+                .addOnSuccessListener {
+                    certify(imageFileName)
+                }.addOnFailureListener{
+                    Toast.makeText(this,"인증에 실패하였습니다.",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -125,6 +150,45 @@ class CaptureActivity: AppCompatActivity() {
             }
         )
     }
+    private fun certify(imageName:String){
+        val userId:String? = upref.getString("id","none")
+        val now = Date()
+        val nowDate=SimpleDateFormat("yyyy-MM-dd").format(now)
+        val nowTime=SimpleDateFormat("HH:mm:ss").format(now)
+        db.collection("certification").whereEqualTo("user_id",userId).whereEqualTo("certified_date",nowDate)
+            .get()
+            .addOnSuccessListener {
+                result->
+                if(result.isEmpty){
+                    val certification = mapOf(
+                        "image_name" to imageName,
+                        "certified_date" to nowDate,
+                        "certified_time" to nowTime,
+                        "user_id" to upref.getString("id","none"),
+                        "room_id" to upref.getString("room_id","none")
+                    )
+                    val colRef: CollectionReference = db.collection("certification")
+                    val docRef: Task<DocumentReference> = colRef.add(certification)
+                    docRef.addOnSuccessListener {
+                        Toast.makeText(this,"인증에 성공하였습니다.",Toast.LENGTH_SHORT).show()
+                        setResult(RESULT_OK)
+                        finish()
+                    }
+                }else{
+                    db.collection("certification")
+                        .document(result.documents.get(0).id)
+                        .update("certified_time", nowTime)
+                        .addOnSuccessListener {
+                            Toast.makeText(this,"재인증에 성공하였습니다.",Toast.LENGTH_SHORT).show()
+                            setResult(RESULT_OK)
+                            finish()
+                        }
+                }
+
+            }
+
+    }
+
     /**
      * 권한 요청 결과를 판단(requestPermissions에 의해 호출)
      */
