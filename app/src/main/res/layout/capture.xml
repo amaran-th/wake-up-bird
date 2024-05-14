@@ -9,11 +9,16 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="36dp"
+        android:paddingTop="36dp"
+        android:paddingBottom="20dp"
         android:text="@string/capture_title"
+        android:fontFamily="@font/binggrae_bold"
+        android:textColor="@color/black_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp"
         />
 
@@ -64,12 +69,14 @@
                 android:id="@+id/retry_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/binggrae_regular"
                 android:text="다시 찍기" />
 
             <Button
                 android:id="@+id/certify_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/binggrae_regular"
                 android:text="인증하기" />
         </LinearLayout>
 

@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/binggrae_bold"
                     android:text="인증 현황"
                     android:textSize="20sp" />
 
@@ -37,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/binggrae_regular"
                     android:text="TextView" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -51,6 +53,7 @@
             android:id="@+id/certifyButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:fontFamily="@font/binggrae_regular"
             android:text="인증하기" />
     </LinearLayout>
 
