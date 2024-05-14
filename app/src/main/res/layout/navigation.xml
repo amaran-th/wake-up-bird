@@ -20,8 +20,10 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationView"
+            android:theme="@style/Widget.BottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/binggrae"
             app:itemBackground="@color/background_color"
             app:itemIconTint="@drawable/navigation_click_color"
             app:itemTextColor="@drawable/navigation_click_color"
