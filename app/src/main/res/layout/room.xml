@@ -53,16 +53,23 @@
             </LinearLayout>
         </ScrollView>
 
-        <Button
-            android:id="@+id/certifyButton"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginVertical="10dp"
-            android:backgroundTint="@color/primary_color"
-            android:background="@drawable/rounded_corner_lv1"
-            android:fontFamily="@font/binggrae_regular"
-            android:textColor="@color/black_color"
-            android:text="인증하기" />
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:background="@color/background_color"
+            >
+            <Button
+                android:id="@+id/certifyButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/primary_color"
+                android:background="@drawable/rounded_corner_lv1"
+                android:fontFamily="@font/binggrae_regular"
+                android:textColor="@color/black_color"
+                android:text="인증하기" />
+        </FrameLayout>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -9,11 +9,13 @@ import com.example.wake_up_bird.Constants.IMAGE_PATH_SUFFIX
 import com.example.wake_up_bird.R
 import com.example.wake_up_bird.data.Certification
 import com.example.wake_up_bird.databinding.CertificationItemBinding
+import com.google.firebase.storage.FirebaseStorage
 
 class CertificationAdapterViewHolder(val binding: CertificationItemBinding): RecyclerView.ViewHolder(binding.root)
 
 //항목 구성자
 class CertificationAdapter(val datas:List<Certification>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     override fun getItemCount(): Int = datas.size
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = CertificationAdapterViewHolder(
         CertificationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -30,8 +32,9 @@ class CertificationAdapter(val datas:List<Certification>) : RecyclerView.Adapter
             .into(binding.profile)
         binding.userName.text = datas[position].userName
         binding.certifiedTime.text = datas[position].certifiedTime.slice(0..4)
+
         Glide.with(binding.certifyImage.context)
-            .load(IMAGE_PATH_PREFIX+datas[position].imageName+ IMAGE_PATH_SUFFIX)
+            .load(datas[position].imageUrl)
             .error(R.drawable.ic_logo)
             .fallback(R.drawable.ic_logo)
             .into(binding.certifyImage)

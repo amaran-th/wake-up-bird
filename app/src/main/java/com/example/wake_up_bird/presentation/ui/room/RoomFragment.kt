@@ -18,6 +18,7 @@ import com.example.wake_up_bird.databinding.RoomBinding
 import com.example.wake_up_bird.presentation.ui.capture.CaptureActivity
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -29,10 +30,12 @@ import java.util.Date
 
 class RoomFragment: Fragment() {
     private lateinit var db: FirebaseFirestore
-    lateinit var upref: SharedPreferences
+    private lateinit var upref: SharedPreferences
+    private lateinit var storage: FirebaseStorage
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:Bundle?) : View?{
         val binding = RoomBinding.inflate(inflater, container, false )
         db = FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
         var datas:List<Certification> = listOf()
         upref=getActivity()?.getSharedPreferences("upref",Activity.MODE_PRIVATE)?:return binding.root
         CoroutineScope(Dispatchers.Main).launch {
@@ -47,10 +50,12 @@ class RoomFragment: Fragment() {
                     .document(document.getString("user_id") ?: "")
                     .get()
                     .await()
+
+                val imageUrl=storage.reference.child("images").child(document.getString("image_name")?:"").downloadUrl.await()
                 Certification(
                     user.getString("nickname") ?: "",
                     user.getString("image_url") ?: "",
-                    document.getString("image_name") ?: "",
+                    imageUrl,
                     document.getString("certified_time") ?: ""
                 )
             }
@@ -65,24 +70,5 @@ class RoomFragment: Fragment() {
             startActivity(intent)
         }
         return binding.root
-    }
-
-
-    suspend fun createCertification(document:DocumentSnapshot):Certification = coroutineScope{
-        var certification=Certification("","","","")
-        db.collection("user")
-            .document(document.getString("user_id")?:"")
-            .get()
-            .addOnSuccessListener {
-                    user->
-                Log.d(TAG, user.data.toString())
-                certification = Certification(
-                    user.getString("nickname")?:"",
-                    user.getString("image_url")?:"",
-                    document.getString("image_name")?:"",
-                    document.getString("certified_time")?:""
-                )
-            }.await()
-        return@coroutineScope certification
     }
 }
