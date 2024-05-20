@@ -77,7 +77,7 @@ class InitActivity: AppCompatActivity() {
         }
 
         enterButton.setOnClickListener {
-            val enteredPass = passEditText.text.toString().trim()
+            val enteredPass = passEditText.text.toString().toIntOrNull()
 
             val db: FirebaseFirestore = FirebaseFirestore.getInstance()
             val colRef: CollectionReference = db.collection("room")
@@ -85,7 +85,7 @@ class InitActivity: AppCompatActivity() {
             colRef.document(codeEditText.text.toString()).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        val password = document.getString("password")
+                        val password = document.getLong("password")?.toInt()
 
                         if (enteredPass == password) {
                             val upref = getSharedPreferences("upref", Activity.MODE_PRIVATE)
