@@ -85,7 +85,7 @@ class InitActivity: AppCompatActivity() {
             colRef.document(codeEditText.text.toString()).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        val password = document.getString("password")?.toIntOrNull()
+                        val password = document.getLong("password")?.toInt()
 
                         if (enteredPass == password) {
                             val upref = getSharedPreferences("upref", Activity.MODE_PRIVATE)
