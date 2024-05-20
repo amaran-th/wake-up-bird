@@ -6,7 +6,20 @@
         <State />
       </entry>
       <entry key="InitActivity">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\ltdms\.android\avd\Pixel_2_API_33_Medium_Phone.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-05-18T10:24:23.727884700Z" />
+        </State>
       </entry>
       <entry key="app">
         <State>

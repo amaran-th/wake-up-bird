@@ -61,10 +61,8 @@ class InitActivity: AppCompatActivity() {
         }
 
         roomButton.setOnClickListener {
-            roomButton.setOnClickListener {
-                val intent = Intent(this, CreateRoomActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, CreateRoomActivity::class.java)
+            startActivity(intent)
         }
 
         backButton.setOnClickListener {

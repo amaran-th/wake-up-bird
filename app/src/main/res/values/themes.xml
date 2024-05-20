@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.Wake_up_bird" parent="android:Theme.Material.Light.NoActionBar" />
+    
+    <style name="CustomTimePicker">
+        <item name="android:fontFamily">@font/binggrae</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>
