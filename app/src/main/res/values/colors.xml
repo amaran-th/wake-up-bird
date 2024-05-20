@@ -7,4 +7,6 @@
     <color name="black_color">#333333</color>
     <color name="gray_color">#A4A4A4</color>
     <color name="light_gray_color">#E5E5E5</color>
+    <color name="red_color">#DA2007</color>
+    <color name="blue_color">#2489FF</color>
 </resources>

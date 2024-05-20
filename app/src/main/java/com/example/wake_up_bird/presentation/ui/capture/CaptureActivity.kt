@@ -76,13 +76,14 @@ class CaptureActivity: AppCompatActivity() {
             mBinding.btnCapture.visibility=View.VISIBLE
         }
         mBinding.certifyButton.setOnClickListener{
+            val now = Date()
             mBinding.certifyButton.isEnabled=false
             var timeStamp= SimpleDateFormat("yyyy-MM-dd").format(Date())
             var imageFileName = timeStamp+"_"+upref.getString("id","none")+".png"
             var storageRef = storage.reference.child("images").child(imageFileName)
             storageRef.putFile(Uri.fromFile(photoFile))
                 .addOnSuccessListener {
-                    certify(imageFileName)
+                    certify(now, imageFileName)
                 }.addOnFailureListener{
                     Toast.makeText(this,"인증에 실패하였습니다.",Toast.LENGTH_SHORT).show()
             }
@@ -150,9 +151,8 @@ class CaptureActivity: AppCompatActivity() {
             }
         )
     }
-    private fun certify(imageName:String){
+    private fun certify(now:Date, imageName:String){
         val userId:String? = upref.getString("id","none")
-        val now = Date()
         val nowDate=SimpleDateFormat("yyyy-MM-dd").format(now)
         val nowTime=SimpleDateFormat("HH:mm:ss").format(now)
         db.collection("certification").whereEqualTo("user_id",userId).whereEqualTo("certified_date",nowDate)
@@ -171,7 +171,8 @@ class CaptureActivity: AppCompatActivity() {
                     val docRef: Task<DocumentReference> = colRef.add(certification)
                     docRef.addOnSuccessListener {
                         Toast.makeText(this,"인증에 성공하였습니다.",Toast.LENGTH_SHORT).show()
-                        setResult(RESULT_OK)
+                        intent.putExtra("certified_time",nowTime)
+                        setResult(Activity.RESULT_OK, intent)
                         finish()
                     }
                 }else{
@@ -180,7 +181,8 @@ class CaptureActivity: AppCompatActivity() {
                         .update("certified_time", nowTime)
                         .addOnSuccessListener {
                             Toast.makeText(this,"재인증에 성공하였습니다.",Toast.LENGTH_SHORT).show()
-                            setResult(RESULT_OK)
+                            intent.putExtra("certified_time",nowTime)
+                            setResult(Activity.RESULT_OK, intent)
                             finish()
                         }
                 }
