@@ -4,12 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.wake_up_bird.Constants.IMAGE_PATH_PREFIX
-import com.example.wake_up_bird.Constants.IMAGE_PATH_SUFFIX
 import com.example.wake_up_bird.R
 import com.example.wake_up_bird.data.Certification
 import com.example.wake_up_bird.databinding.CertificationItemBinding
-import com.google.firebase.storage.FirebaseStorage
 
 class CertificationAdapterViewHolder(val binding: CertificationItemBinding): RecyclerView.ViewHolder(binding.root)
 

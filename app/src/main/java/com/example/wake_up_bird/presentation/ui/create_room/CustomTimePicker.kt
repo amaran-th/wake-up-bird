@@ -19,7 +19,7 @@ class CustomTimePickerDialog(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.custom_time_picker)
-        window?.setBackgroundDrawableResource(R.drawable.rounded_corner)
+        window?.setBackgroundDrawableResource(R.drawable.rounded_corner_lv2)
 
         val timePicker = findViewById<TimePicker>(R.id.timePicker)
         timePicker.hour = hour

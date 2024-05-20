@@ -3,7 +3,7 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@drawable/rounded_corner"
+    android:background="@drawable/rounded_corner_lv2"
     android:orientation="vertical"
     android:backgroundTint="@color/background_color">
 
