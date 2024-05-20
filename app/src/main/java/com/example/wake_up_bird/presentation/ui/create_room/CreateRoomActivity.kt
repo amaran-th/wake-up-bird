@@ -1,13 +1,17 @@
 package com.example.wake_up_bird.presentation.ui.create_room
 
 import CustomTimePickerDialog
+import android.app.Activity
 import android.app.TimePickerDialog
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -74,6 +78,10 @@ class CreateRoomActivity: AppCompatActivity() {
             val lateFee = lateFeeEdit.text.toString()
             val absentFee = absentFeeEdit.text.toString()
 
+            var passwordInt: Int? = null
+            var lateFeeInt: Int? = null
+            var absentFeeInt: Int? = null
+
             if (name.isEmpty()) {
                 nameWarning.visibility = View.VISIBLE
                 nameEdit.setBackgroundResource(R.drawable.line_create_room_warning)
@@ -82,25 +90,58 @@ class CreateRoomActivity: AppCompatActivity() {
                 nameWarning.visibility = View.INVISIBLE
             }
             if (password.isEmpty()) {
+                passwordWarning.setText("비밀번호는 비워둘 수 없습니다.")
                 passwordWarning.visibility = View.VISIBLE
                 passwordEdit.setBackgroundResource(R.drawable.line_create_room_warning)
             } else {
                 passwordEdit.setBackgroundResource(R.drawable.line_create_room)
                 passwordWarning.visibility = View.INVISIBLE
+
+                passwordInt = password.toIntOrNull()
+                if (passwordInt == null) {
+                    passwordWarning.setText("비밀번호는 정수만 가능합니다.")
+                    passwordWarning.visibility = View.VISIBLE
+                    passwordEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+                } else {
+                    passwordEdit.setBackgroundResource(R.drawable.line_create_room)
+                    passwordWarning.visibility = View.INVISIBLE
+                }
             }
             if (lateFee.isEmpty()) {
+                lateFeeWarning.setText("지각비는 비워둘 수 없습니다.")
                 lateFeeWarning.visibility = View.VISIBLE
                 lateFeeEdit.setBackgroundResource(R.drawable.line_create_room_warning)
             } else {
                 lateFeeEdit.setBackgroundResource(R.drawable.line_create_room)
                 lateFeeWarning.visibility = View.INVISIBLE
+
+                lateFeeInt = lateFee.toIntOrNull()
+                if (lateFeeInt == null) {
+                    lateFeeWarning.setText("지각비는 정수만 가능합니다.")
+                    lateFeeWarning.visibility = View.VISIBLE
+                    lateFeeEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+                } else {
+                    lateFeeEdit.setBackgroundResource(R.drawable.line_create_room)
+                    lateFeeWarning.visibility = View.INVISIBLE
+                }
             }
             if (absentFee.isEmpty()) {
+                absentFeeWarning.setText("결석비는 비워둘 수 없습니다.")
                 absentFeeWarning.visibility = View.VISIBLE
                 absentFeeEdit.setBackgroundResource(R.drawable.line_create_room_warning)
             } else {
                 absentFeeEdit.setBackgroundResource(R.drawable.line_create_room)
                 absentFeeWarning.visibility = View.INVISIBLE
+
+                absentFeeInt = absentFee.toIntOrNull()
+                if (absentFeeInt == null) {
+                    absentFeeWarning.setText("결석비는 정수만 가능합니다.")
+                    absentFeeWarning.visibility = View.VISIBLE
+                    absentFeeEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+                } else {
+                    absentFeeEdit.setBackgroundResource(R.drawable.line_create_room)
+                    absentFeeWarning.visibility = View.INVISIBLE
+                }
             }
 
             if (isTimeAscending(timeStart, timeMiddle, timeEnd) == false) {
@@ -115,9 +156,9 @@ class CreateRoomActivity: AppCompatActivity() {
                 timeWarning.visibility = View.INVISIBLE
             }
 
-            if (name.isNotEmpty() && password.isNotEmpty() && lateFee.isNotEmpty() && absentFee.isNotEmpty()
+            if (name.isNotEmpty() && (passwordInt != null) && (lateFeeInt != null) && (absentFeeInt != null)
                 && (isTimeAscending(timeStart, timeMiddle, timeEnd) == true)) {
-                writeFirebase(name, password, timeStart, timeMiddle, timeEnd, lateFee, absentFee)
+                writeFirebase(name, passwordInt, timeStart, timeMiddle, timeEnd, lateFeeInt, absentFeeInt)
             }
         }
     }
@@ -161,8 +202,8 @@ class CreateRoomActivity: AppCompatActivity() {
         customTimePickerDialog.show()
     }
 
-    private fun writeFirebase(name: String, password: String, timeStart: String, timeMiddle: String,
-                              timeEnd: String, lateFee: String, absentFee: String) {
+    private fun writeFirebase(name: String, password: Int, timeStart: String, timeMiddle: String,
+                              timeEnd: String, lateFee: Int, absentFee: Int) {
         val randomCode: String = UUID.randomUUID().toString().replace("-", "").take(12)
         val currentDate = getCurrentDate()
         val room = hashMapOf(
@@ -183,9 +224,27 @@ class CreateRoomActivity: AppCompatActivity() {
 
         colRef.document(randomCode).set(room)
             .addOnSuccessListener {
-                // 방 생성자를 방장으로 설정하고, 방에 입장시킴 (수정필요)
-                val intent = Intent(this, NavigationActivity::class.java)
-                startActivity(intent)
+                val upref = getSharedPreferences("upref", Activity.MODE_PRIVATE)
+                val userId = upref.getString("id", null)
+
+                if (userId != null) {
+                    val role = "manager"
+                    db.collection("user").document(userId).update("room_id", randomCode,
+                        "role", role)
+                        .addOnSuccessListener {
+                            val intent = Intent(this, NavigationActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e(TAG, "Error updating user room_id", e)
+                        }
+                } else {
+                    Log.e(TAG, "현재 사용자 ID를 가져오는 데 실패했습니다.")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Error creating room", e)
             }
     }
 

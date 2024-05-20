@@ -1,7 +1,10 @@
 package com.example.wake_up_bird.presentation.ui.init
 
+import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -10,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.example.wake_up_bird.R
+import com.example.wake_up_bird.presentation.ui.base.NavigationActivity
 import com.example.wake_up_bird.presentation.ui.create_room.CreateRoomActivity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -84,14 +88,40 @@ class InitActivity: AppCompatActivity() {
                         val password = document.getString("password")
 
                         if (enteredPass == password) {
-                            // 해당 채팅방으로 입장하는 부분
+                            val upref = getSharedPreferences("upref", Activity.MODE_PRIVATE)
+                            val userId = upref.getString("id", null)
+
+                            if (userId != null) {
+                                val role = "guest"
+                                val currentMemberNum = document.getLong("member_num") ?: 0
+                                val updatedMemberNum = currentMemberNum + 1
+
+                                db.collection("user").document(userId).update(
+                                    "room_id", codeEditText.text.toString(),
+                                    "role", role)
+                                    .addOnSuccessListener {
+                                        colRef.document(codeEditText.text.toString()).update("member_num", updatedMemberNum)
+                                            .addOnSuccessListener {
+                                                val intent = Intent(this, NavigationActivity::class.java)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.e(ContentValues.TAG, "Error updating room member_num", e)
+                                            }
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.e(ContentValues.TAG, "Error updating user room_id", e)
+                                    }
+                            } else {
+                                Log.e(ContentValues.TAG, "현재 사용자 ID를 가져오는 데 실패했습니다.")
+                            }
                         } else {
                             passWarning.visibility = View.VISIBLE
                             passEditText.setBackgroundResource(R.drawable.line_init_warning)
                         }
                     }
                 }
-
         }
 
         checkButton.setOnClickListener {
