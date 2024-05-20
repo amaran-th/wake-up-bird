@@ -29,8 +29,8 @@
                     android:layout_width="320dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginBottom="68dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginBottom="36dp"
                     android:text="인증방 만들기"
                     android:fontFamily="@font/binggrae_bold"
                     android:textColor="#000000"
@@ -118,57 +118,66 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/line_create_room"
                         android:fontFamily="@font/binggrae"
-                        android:inputType="none"
-                        android:hint="  00:00"
+
+                        android:background="@drawable/line_create_room"
+                        android:gravity="center|left"
+                        android:text="  00:00"
                         android:textSize="14sp"
-                        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-                        tools:ignore="TouchTargetSizeCheck"
                         android:id="@+id/ET_create_room_3_start"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:gravity="center"
-                        android:text="~"
+                        android:gravity="center|left"
+                        android:text=" ~"
+                        android:fontFamily="@font/binggrae"
                         android:textSize="14sp" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/ET_create_room_3_middle"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/line_create_room"
+                        android:gravity="center|left"
                         android:fontFamily="@font/binggrae"
-                        android:inputType="none"
+                        android:background="@drawable/line_create_room"
                         android:hint="  00:00"
                         android:textSize="14sp"
-                        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:gravity="center"
-                        android:text="~"
+                        android:gravity="center|left"
+                        android:text=" ~"
+                        android:fontFamily="@font/binggrae"
                         android:textSize="14sp" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/ET_create_room_3_end"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/line_create_room"
+                        android:gravity="center|left"
                         android:fontFamily="@font/binggrae"
-                        android:inputType="none"
+                        android:background="@drawable/line_create_room"
                         android:hint="  00:00"
-                        android:textSize="14sp"
-                        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        android:textSize="14sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="320dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:text="기상/지각 인정 시각을 올바르게 입력해주세요."
+                    android:fontFamily="@font/binggrae"
+                    android:textColor="#FF0000"
+                    android:textSize="12sp"
+                    android:id="@+id/TV_create_room_warning_3"/>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="320dp"
@@ -242,6 +251,17 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="320dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:text="지각비는 비워둘 수 없습니다."
+                    android:fontFamily="@font/binggrae"
+                    android:textColor="#FF0000"
+                    android:textSize="12sp"
+                    android:id="@+id/TV_create_room_warning_4"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="320dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
@@ -261,12 +281,24 @@
                     android:textSize="14sp"
                     android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
                     android:id="@+id/ET_create_room_5"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="320dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:text="결석비는 비워둘 수 없습니다."
+                    android:fontFamily="@font/binggrae"
+                    android:textColor="#FF0000"
+                    android:textSize="12sp"
+                    android:id="@+id/TV_create_room_warning_5"/>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="320dp"
-            android:layout_height="180dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:background="@drawable/bg_login"
@@ -276,6 +308,7 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/ic_create_room_back"
                 android:text="@string/back"
                 android:textSize="16sp"
@@ -293,6 +326,7 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/ic_create_room_make"
                 android:text="@string/make"
                 android:textSize="16sp"

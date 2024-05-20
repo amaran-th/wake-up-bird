@@ -1,12 +1,11 @@
 package com.example.wake_up_bird.presentation.ui.create_room
 
+import CustomTimePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.activity.enableEdgeToEdge
@@ -14,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat.startActivity
 import com.example.wake_up_bird.R
+import com.example.wake_up_bird.presentation.ui.base.NavigationActivity
 import com.example.wake_up_bird.presentation.ui.init.InitActivity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,14 +33,17 @@ class CreateRoomActivity: AppCompatActivity() {
 
         val nameEdit = findViewById<AppCompatEditText>(R.id.ET_create_room_1)
         val passwordEdit = findViewById<AppCompatEditText>(R.id.ET_create_room_2)
-        val timeStartEdit = findViewById<AppCompatEditText>(R.id.ET_create_room_3_start)
-        val timeMiddleEdit = findViewById<AppCompatEditText>(R.id.ET_create_room_3_middle)
-        val timeEndEdit = findViewById<AppCompatEditText>(R.id.ET_create_room_3_end)
+        val timeStartEdit = findViewById<AppCompatTextView>(R.id.ET_create_room_3_start)
+        val timeMiddleEdit = findViewById<AppCompatTextView>(R.id.ET_create_room_3_middle)
+        val timeEndEdit = findViewById<AppCompatTextView>(R.id.ET_create_room_3_end)
         val lateFeeEdit = findViewById<AppCompatEditText>(R.id.ET_create_room_4)
         val absentFeeEdit = findViewById<AppCompatEditText>(R.id.ET_create_room_5)
 
         val nameWarning = findViewById<AppCompatTextView>(R.id.TV_create_room_warning_1)
         val passwordWarning = findViewById<AppCompatTextView>(R.id.TV_create_room_warning_2)
+        val timeWarning = findViewById<AppCompatTextView>(R.id.TV_create_room_warning_3)
+        val lateFeeWarning = findViewById<AppCompatTextView>(R.id.TV_create_room_warning_4)
+        val absentFeeWarning = findViewById<AppCompatTextView>(R.id.TV_create_room_warning_5)
 
         val backButton = findViewById<AppCompatButton>(R.id.Btn_create_room_1)
         val makeButton = findViewById<AppCompatButton>(R.id.Btn_create_room_2)
@@ -84,34 +88,77 @@ class CreateRoomActivity: AppCompatActivity() {
                 passwordEdit.setBackgroundResource(R.drawable.line_create_room)
                 passwordWarning.visibility = View.INVISIBLE
             }
+            if (lateFee.isEmpty()) {
+                lateFeeWarning.visibility = View.VISIBLE
+                lateFeeEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+            } else {
+                lateFeeEdit.setBackgroundResource(R.drawable.line_create_room)
+                lateFeeWarning.visibility = View.INVISIBLE
+            }
+            if (absentFee.isEmpty()) {
+                absentFeeWarning.visibility = View.VISIBLE
+                absentFeeEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+            } else {
+                absentFeeEdit.setBackgroundResource(R.drawable.line_create_room)
+                absentFeeWarning.visibility = View.INVISIBLE
+            }
 
-            if (name.isNotEmpty() && password.isNotEmpty()) {
-                // default fee
-                if (lateFee.isEmpty()) "100"
-                if (absentFee.isEmpty()) "2000"
+            if (isTimeAscending(timeStart, timeMiddle, timeEnd) == false) {
+                timeWarning.visibility = View.VISIBLE
+                timeStartEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+                timeMiddleEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+                timeEndEdit.setBackgroundResource(R.drawable.line_create_room_warning)
+            } else {
+                timeStartEdit.setBackgroundResource(R.drawable.line_create_room)
+                timeMiddleEdit.setBackgroundResource(R.drawable.line_create_room)
+                timeEndEdit.setBackgroundResource(R.drawable.line_create_room)
+                timeWarning.visibility = View.INVISIBLE
+            }
 
+            if (name.isNotEmpty() && password.isNotEmpty() && lateFee.isNotEmpty() && absentFee.isNotEmpty()
+                && (isTimeAscending(timeStart, timeMiddle, timeEnd) == true)) {
                 writeFirebase(name, password, timeStart, timeMiddle, timeEnd, lateFee, absentFee)
             }
         }
     }
 
-    private fun showTimePickerDialog(editText: EditText) {
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
+    private fun isTimeAscending(start: String, middle: String, end: String): Boolean {
+        val regex = Regex("""(\d{2}):(\d{2})""")
 
-        val timePickerDialog = TimePickerDialog(
-            this,
-            android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-            TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
-                val selectedTime = String.format(" %02d:%02d", hourOfDay, minute)
-                editText.setText(selectedTime)
-            },
-            hour,
-            minute,
-            false
-        )
-        timePickerDialog.show()
+        val startMatch = regex.find(start)
+        val middleMatch = regex.find(middle)
+        val endMatch = regex.find(end)
+
+        if (startMatch != null && middleMatch != null && endMatch != null) {
+            val (hourStr1, minuteStr1) = startMatch.destructured
+            val startValue = hourStr1.toInt() * 60 + minuteStr1.toInt()
+
+            val (hourStr2, minuteStr2) = middleMatch.destructured
+            val middleValue = hourStr2.toInt() * 60 + minuteStr2.toInt()
+
+            val (hourStr3, minuteStr3) = endMatch.destructured
+            val endValue = hourStr3.toInt() * 60 + minuteStr3.toInt()
+
+            return startValue < middleValue && middleValue < endValue
+        } else {
+            return false
+        }
+    }
+
+    private fun showTimePickerDialog(text: TextView) {
+        val calendar = Calendar.getInstance()
+        val hour = 0
+        val minute = 0
+
+        val customTimePickerDialog = CustomTimePickerDialog(this,
+            object : CustomTimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(hourOfDay: Int, minute: Int) {
+                    val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+                    text.setText(selectedTime)
+                }
+            }, hour, minute)
+
+        customTimePickerDialog.show()
     }
 
     private fun writeFirebase(name: String, password: String, timeStart: String, timeMiddle: String,
@@ -136,8 +183,8 @@ class CreateRoomActivity: AppCompatActivity() {
 
         colRef.document(randomCode).set(room)
             .addOnSuccessListener {
-                // 방 생성 성공시 초기 화면으로 돌아감 (수정 필요)
-                val intent = Intent(this, InitActivity::class.java)
+                // 방 생성자를 방장으로 설정하고, 방에 입장시킴 (수정필요)
+                val intent = Intent(this, NavigationActivity::class.java)
                 startActivity(intent)
             }
     }
