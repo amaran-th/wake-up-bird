@@ -91,7 +91,6 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.0-alpha04")
     implementation("androidx.camera:camera-mlkit-vision:1.3.0-alpha04")
     implementation("androidx.camera:camera-extensions:1.3.0-alpha04")
-    implementation(libs.firebase.storage.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
