@@ -7,4 +7,6 @@
     <string name="enter">입장하기</string>
     <string name="check">확인</string>
     <string name="make">만들기</string>
+    <string name="capture_title">인증사진 찍기</string>
+
 </resources>
