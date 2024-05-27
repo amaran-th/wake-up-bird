@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingVertical="16dp"
+    android:paddingHorizontal="20dp"
+    android:layout_gravity="end"
+    android:background="@color/background_color">
+
+    <LinearLayout
+        android:id="@+id/invite_code_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/icon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            app:srcCompat="@drawable/outlined_clipboard" />
+
+        <TextView
+            android:id="@+id/invite_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/binggrae_bold"
+            android:text="초대코드 복사하기"
+            android:textColor="@color/primary_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/password_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/icon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            app:srcCompat="@drawable/outlined_key" />
+        <TextView
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/binggrae_bold"
+            android:text="비밀번호 복사하기"
+            android:textColor="@color/gray_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divide1"
+        android:layout_width="match_parent"
+        android:layout_marginVertical="16dp"
+        android:background="@color/black_color"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:id="@+id/attendance_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/binggrae_regular"
+        android:text="출석 인정 시간: " />
+
+    <TextView
+        android:id="@+id/lateness_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/binggrae_regular"
+        android:text="지각 인정 시간: " />
+
+    <View
+        android:id="@+id/divide2"
+        android:layout_width="match_parent"
+        android:layout_marginVertical="16dp"
+        android:background="@color/black_color"
+        android:layout_height="1dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/icon3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            app:srcCompat="@drawable/outlined_get_out" />
+        <TextView
+            android:id="@+id/get_out_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/binggrae_bold"
+            android:text="방 나가기"
+            android:textColor="@color/gray_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -8,5 +8,6 @@
     <string name="check">확인</string>
     <string name="make">만들기</string>
     <string name="capture_title">인증사진 찍기</string>
-
+    <string name="drawer_opened">드로어 열림</string>
+    <string name="drawer_closed">드로어 닫힘</string>
 </resources>

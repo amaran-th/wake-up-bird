@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="36dp"
-    android:paddingHorizontal="20dp"
     android:background="@color/background_color"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="36dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -21,28 +29,80 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/roomId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/binggrae_bold"
-                    android:textColor="@color/black_color"
-                    android:text="인증 현황"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/now_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/binggrae_bold"
+                        android:text="인증 현황"
+                        android:textColor="@color/black_color"
+                        android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/textView"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="16dp"
-                    android:fontFamily="@font/binggrae_regular"
-                    android:textColor="@color/black_color"
-                    android:text="TextView" />
+                    android:layout_height="40dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:layout_weight="0"
+                    android:background="@drawable/certification_day_statistic_box"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/all_member_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:fontFamily="@font/binggrae_regular"
+                        android:text=""
+                        android:textColor="@color/black_color"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/certified_member_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:fontFamily="@font/binggrae_regular"
+                        android:text=""
+                        android:textColor="@color/red_color"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:id="@+id/member_count_decoration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:fontFamily="@font/binggrae_regular"
+                        android:text="명 인증"
+                        android:textColor="@color/black_color"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/background_color"
+                        android:layout_marginHorizontal="16dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/certify_day_statistic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:fontFamily="@font/binggrae_regular"
+                        android:text=""
+                        android:textColor="@color/black_color"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/certifications"
@@ -70,6 +130,82 @@
                 android:text="인증하기" />
         </FrameLayout>
 
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/warning_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#B2333333"
+            android:visibility="invisible"
+            tools:context=".InitInferface.InitKeypadActivity">
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_login"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/binggrae_bold"
+                    android:text="정말로 인증방을 나가시겠습니까?"
+                    android:textColor="@color/black_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="@font/binggrae_regular"
+                    android:text="(지금까지의 인증 기록은 모두 사라집니다)"
+                    android:textColor="@color/red_color"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/cancel_button"
+                        android:layout_width="96dp"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="32dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_init_make_room"
+                        android:backgroundTint="@color/light_gray_color"
+                        android:fontFamily="@font/binggrae_regular"
+                        android:text="아니오"
+                        android:textColor="@color/black_color"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/get_out_button"
+                        android:layout_width="96dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_init_make_room"
+                        android:backgroundTint="@color/red_color"
+                        android:fontFamily="@font/binggrae_regular"
+                        android:text="예"
+                        android:textColor="@color/background_color"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+</FrameLayout>
+
+    <include
+        android:id="@+id/navigation_view"
+        layout="@layout/room_specification"/>
+</androidx.drawerlayout.widget.DrawerLayout>

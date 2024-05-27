@@ -23,8 +23,8 @@ class CertificationAdapter(val datas:List<Certification>) : RecyclerView.Adapter
 
         Glide.with(binding.profile.context)
             .load(datas[position].profileImageUrl)
-            .error(R.drawable.ic_logo)
-            .fallback(R.drawable.ic_logo)
+            .error(R.mipmap.ic_fallback)
+            .fallback(R.mipmap.ic_fallback)
             .circleCrop()
             .into(binding.profile)
         binding.userName.text = datas[position].userName
@@ -32,8 +32,8 @@ class CertificationAdapter(val datas:List<Certification>) : RecyclerView.Adapter
 
         Glide.with(binding.certifyImage.context)
             .load(datas[position].imageUrl)
-            .error(R.drawable.ic_logo)
-            .fallback(R.drawable.ic_logo)
+            .error(R.mipmap.ic_fallback)
+            .fallback(R.mipmap.ic_fallback)
             .into(binding.certifyImage)
     }
 }
