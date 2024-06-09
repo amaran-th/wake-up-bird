@@ -15,46 +15,54 @@ private const val TAG_STATISTIC = "statistic_fragment"
 private const val TAG_ROOM = "room_fragment"
 private const val TAG_REST_TIME = "rest_time_fragment"
 private const val TAG_RECOGNITION = "recognition_fragment"
-class NavigationActivity : AppCompatActivity() {
 
+class NavigationActivity : AppCompatActivity() {
     private lateinit var binding : NavigationBinding
+    var activeFragmentTag: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = NavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        activeFragmentTag = savedInstanceState?.getString("activeFragmentTag") ?: TAG_ROOM
 
-        setFragment(TAG_ROOM, RoomFragment())
+        setFragment(activeFragmentTag ?: TAG_ROOM, RoomFragment())
 
         binding.navigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.statistic -> setFragment(TAG_STATISTIC, StatisticFragment())
                 R.id.room -> setFragment(TAG_ROOM, RoomFragment())
                 R.id.rest_time -> setFragment(TAG_REST_TIME, RestTimeFragment())
-                R.id.recognition ->setFragment(TAG_RECOGNITION, RecognitionFragment())
+                R.id.recognition -> setFragment(TAG_RECOGNITION, RecognitionFragment())
             }
             true
         }
     }
 
-    private fun setFragment(tag: String, fragment: Fragment) {
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("activeFragmentTag", activeFragmentTag)
+    }
+
+    fun setFragment(tag: String, fragment: Fragment) {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
 
-        if (manager.findFragmentByTag(tag) == null){
+        if (manager.findFragmentByTag(tag) == null) {
             fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
         }
 
         val statistic = manager.findFragmentByTag(TAG_STATISTIC)
         val room = manager.findFragmentByTag(TAG_ROOM)
         val restTime = manager.findFragmentByTag(TAG_REST_TIME)
+        val recognition = manager.findFragmentByTag(TAG_RECOGNITION) // 추가
 
-        if (statistic != null){
+        if (statistic != null) {
             fragTransaction.hide(statistic)
         }
 
-        if (room != null){
+        if (room != null) {
             fragTransaction.hide(room)
         }
 
@@ -62,23 +70,18 @@ class NavigationActivity : AppCompatActivity() {
             fragTransaction.hide(restTime)
         }
 
-        if (tag == TAG_STATISTIC) {
-            if (statistic!=null){
-                fragTransaction.show(statistic)
-            }
-        }
-        else if (tag == TAG_ROOM) {
-            if (room != null) {
-                fragTransaction.show(room)
-            }
+        if (recognition != null) {
+            fragTransaction.hide(recognition)
         }
 
-        else if (tag == TAG_REST_TIME){
-            if (restTime != null){
-                fragTransaction.show(restTime)
-            }
+        when (tag) {
+            TAG_STATISTIC -> if (statistic != null) fragTransaction.show(statistic)
+            TAG_ROOM -> if (room != null) fragTransaction.show(room)
+            TAG_REST_TIME -> if (restTime != null) fragTransaction.show(restTime)
+            TAG_RECOGNITION -> if (recognition != null) fragTransaction.show(recognition)
         }
 
         fragTransaction.commitAllowingStateLoss()
+        activeFragmentTag = tag
     }
 }
