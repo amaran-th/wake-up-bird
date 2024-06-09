@@ -1,7 +1,6 @@
 package com.example.wake_up_bird.presentation.ui.init
 
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +12,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.example.wake_up_bird.R
+import com.example.wake_up_bird.notification.sendEnterNotification
 import com.example.wake_up_bird.presentation.ui.base.NavigationActivity
 import com.example.wake_up_bird.presentation.ui.create_room.CreateRoomActivity
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+
+private const val TAG = "InitActivity"
 
 class InitActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,26 +97,36 @@ class InitActivity: AppCompatActivity() {
                                 val role = "guest"
                                 val currentMemberNum = document.getLong("member_num") ?: 0
                                 val updatedMemberNum = currentMemberNum + 1
+                                val room_id = codeEditText.text.toString()
+                                lateinit var newMemberName: String
+
+                                db.collection("user").document(userId).get()
+                                    .addOnSuccessListener { user ->
+                                        if (user.exists()) {
+                                            newMemberName = user.getString("nickname").toString()
+                                        }
+                                    }
 
                                 db.collection("user").document(userId).update(
-                                    "room_id", codeEditText.text.toString(),
+                                    "room_id", room_id,
                                     "role", role)
                                     .addOnSuccessListener {
                                         colRef.document(codeEditText.text.toString()).update("member_num", updatedMemberNum)
                                             .addOnSuccessListener {
+                                                sendEnterNotification(this, room_id, newMemberName)
                                                 val intent = Intent(this, NavigationActivity::class.java)
                                                 startActivity(intent)
                                                 finish()
                                             }
                                             .addOnFailureListener { e ->
-                                                Log.e(ContentValues.TAG, "Error updating room member_num", e)
+                                                Log.e(TAG, "Error updating room member_num", e)
                                             }
                                     }
                                     .addOnFailureListener { e ->
-                                        Log.e(ContentValues.TAG, "Error updating user room_id", e)
+                                        Log.e(TAG, "Error updating user room_id", e)
                                     }
                             } else {
-                                Log.e(ContentValues.TAG, "현재 사용자 ID를 가져오는 데 실패했습니다.")
+                                Log.e(TAG, "현재 사용자 ID를 가져오는 데 실패했습니다.")
                             }
                         } else {
                             passWarning.visibility = View.VISIBLE

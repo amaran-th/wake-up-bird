@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -96,6 +97,21 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
         }
     }
     fun searchUser(id:String, imageUrl:String?, nickname:String?){
+        var token: String? = null
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+            token = task.result
+            if (token != null) {
+                Log.d(TAG, "FCM registration token: $token")
+            } else {
+                Log.w(TAG, "FCM registration token is null")
+            }
+        }
+
         db.collection("user")
             .whereEqualTo("sns_id", id)
             .get()
@@ -107,7 +123,8 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
                         "image_url" to imageUrl,
                         "nickname" to nickname,
                         "room_id" to null,
-                        "sns_id" to id
+                        "sns_id" to id,
+                        "device_token" to token // 기기 토큰 저장
                     )
                     val colRef: CollectionReference = db.collection("user")
                     val docRef: Task<DocumentReference> = colRef.add(user)
@@ -141,6 +158,16 @@ class LoginActivity: AppCompatActivity() , View.OnClickListener {
                         finish()
                     }
 
+                    // device_token이 존재하지 않으면 추가
+                    if (!document.contains("device_token")) {
+                        db.collection("user").document(document.id).update("device_token", token)
+                            .addOnSuccessListener {
+                                Log.d(TAG, "Device token added successfully")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error adding device token", e)
+                            }
+                    }
                 }
             }
             .addOnFailureListener {

@@ -23,6 +23,8 @@ import android.net.Uri
 import androidx.camera.core.AspectRatio.RATIO_4_3
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.wake_up_bird.databinding.CaptureBinding
+import com.example.wake_up_bird.notification.sendCertiNotification
+import com.example.wake_up_bird.notification.sendReCertiNotification
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
@@ -171,9 +173,17 @@ class CaptureActivity: AppCompatActivity() {
                     val docRef: Task<DocumentReference> = colRef.add(certification)
                     docRef.addOnSuccessListener {
                         Toast.makeText(this,"인증에 성공하였습니다.",Toast.LENGTH_SHORT).show()
-                        intent.putExtra("certified_time",nowTime)
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
+                        val room_id = upref.getString("room_id", "none").toString()
+                        db.collection("user").document(userId.toString()).get()
+                            .addOnSuccessListener { user ->
+                                if (user.exists()) {
+                                    val member_name = user.getString("nickname").toString()
+                                    sendCertiNotification(this, room_id, member_name)
+                                    intent.putExtra("certified_time",nowTime)
+                                    setResult(Activity.RESULT_OK, intent)
+                                    finish()
+                                }
+                            }
                     }
                 }else{
                     db.collection("certification")
@@ -181,14 +191,20 @@ class CaptureActivity: AppCompatActivity() {
                         .update("certified_time", nowTime)
                         .addOnSuccessListener {
                             Toast.makeText(this,"재인증에 성공하였습니다.",Toast.LENGTH_SHORT).show()
-                            intent.putExtra("certified_time",nowTime)
-                            setResult(Activity.RESULT_OK, intent)
-                            finish()
+                            val room_id = upref.getString("room_id", "none").toString()
+                            db.collection("user").document(userId.toString()).get()
+                                .addOnSuccessListener { user ->
+                                    if (user.exists()) {
+                                        val member_name = user.getString("nickname").toString()
+                                        sendReCertiNotification(this, room_id, member_name)
+                                        intent.putExtra("certified_time",nowTime)
+                                        setResult(Activity.RESULT_OK, intent)
+                                        finish()
+                                    }
+                                }
                         }
                 }
-
             }
-
     }
 
     /**

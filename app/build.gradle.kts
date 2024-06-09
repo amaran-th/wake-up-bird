@@ -55,6 +55,16 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+    }
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("src\\main\\assets", "src\\main\\assets")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -67,13 +77,15 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.github.bumptech.glide:glide:4.11.0")
     implementation("com.google.firebase:firebase-bom:29.3.1")
     implementation("com.google.firebase:firebase-firestore-ktx:21.2.1")
     implementation("com.google.firebase:firebase-storage:19.0.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.4.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.kakao.sdk:v2-user:2.12.1")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.2")
