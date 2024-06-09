@@ -49,14 +49,17 @@ class NavigationActivity : AppCompatActivity() {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
 
-        if (manager.findFragmentByTag(tag) == null) {
-            fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
+        val currentFragment = manager.findFragmentByTag(tag)
+        if (currentFragment != null) {
+            fragTransaction.remove(currentFragment)
         }
+
+        fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
 
         val statistic = manager.findFragmentByTag(TAG_STATISTIC)
         val room = manager.findFragmentByTag(TAG_ROOM)
         val restTime = manager.findFragmentByTag(TAG_REST_TIME)
-        val recognition = manager.findFragmentByTag(TAG_RECOGNITION) // 추가
+        val recognition = manager.findFragmentByTag(TAG_RECOGNITION)
 
         if (statistic != null) {
             fragTransaction.hide(statistic)
@@ -74,13 +77,7 @@ class NavigationActivity : AppCompatActivity() {
             fragTransaction.hide(recognition)
         }
 
-        when (tag) {
-            TAG_STATISTIC -> if (statistic != null) fragTransaction.show(statistic)
-            TAG_ROOM -> if (room != null) fragTransaction.show(room)
-            TAG_REST_TIME -> if (restTime != null) fragTransaction.show(restTime)
-            TAG_RECOGNITION -> if (recognition != null) fragTransaction.show(recognition)
-        }
-
+        fragTransaction.show(fragment)
         fragTransaction.commitAllowingStateLoss()
         activeFragmentTag = tag
     }

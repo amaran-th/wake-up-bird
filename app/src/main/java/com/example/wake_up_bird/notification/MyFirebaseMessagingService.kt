@@ -25,6 +25,18 @@ import com.google.firebase.messaging.RemoteMessage
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val TAG = "FirebaseService"
 
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.d(TAG, "new Token: $token")
+
+        val pref = this.getSharedPreferences("token", Context.MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putString("token", token).apply()
+        editor.commit()
+        Log.i("로그: ", "토큰 저장 성공")
+
+    }
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d(TAG, "fcm title: ${remoteMessage.notification?.title}")
