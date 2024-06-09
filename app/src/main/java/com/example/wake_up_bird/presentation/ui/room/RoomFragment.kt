@@ -79,6 +79,7 @@ class RoomFragment: Fragment() {
 
     private suspend fun loadDrawer() {
         val users = db.collection("user")
+            .whereEqualTo("room_id", upref.getString("room_id",""))
             .orderBy("role", Query.Direction.DESCENDING)
             .get().await()
         val datas = users.documents.map { user ->
