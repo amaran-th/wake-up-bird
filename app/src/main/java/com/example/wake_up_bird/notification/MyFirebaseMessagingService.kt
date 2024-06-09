@@ -7,10 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.wake_up_bird.GlobalApplication
 import com.example.wake_up_bird.R
+import com.example.wake_up_bird.presentation.ui.base.NavigationActivity
 import com.example.wake_up_bird.presentation.ui.login.LoginActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -39,7 +42,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (!app.isInForeground) {
             sendNotification(remoteMessage.notification?.title, remoteMessage.notification?.body)
         } else {
-            Log.d(TAG, "App is in foreground, no notification shown")
+            val currentActivity = app.currentActivity
+            if (currentActivity != null) {
+                Log.d(TAG, "App is in foreground, current activity: ${currentActivity::class.java.simpleName}")
+                Handler(Looper.getMainLooper()).post {
+                    if (currentActivity is NavigationActivity) {
+                        currentActivity.recreate()
+                        Log.d(TAG, "NavigationActivity refreshed")
+                    }
+                }
+            } else {
+                Log.d(TAG, "App is in foreground, but current activity is null")
+            }
         }
     }
 
