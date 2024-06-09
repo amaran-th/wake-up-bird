@@ -79,6 +79,7 @@ class RoomFragment: Fragment() {
 
     private suspend fun loadDrawer() {
         val users = db.collection("user")
+            .whereEqualTo("room_id", upref.getString("room_id",""))
             .orderBy("role", Query.Direction.DESCENDING)
             .get().await()
         val datas = users.documents.map { user ->
@@ -204,22 +205,8 @@ class RoomFragment: Fragment() {
             val certifiedTime = data?.getStringExtra("certified_time")!!
             Log.d(TAG, certifiedTime)
             CoroutineScope(Dispatchers.Main).launch {
-                val document = db.collection("room")
-                    .document(upref.getString("room_id", "") ?: "")
-                    .get().await()
-                val startTime = document.getString("start_time")
-                val middleTime = document.getString("middle_time")
-                val endTime = document.getString("end_time")
-                if (startTime!! < certifiedTime && certifiedTime < middleTime!!) {
-                    //출석
-                    Log.d(TAG, "출석")
-                    updateAttendenceUI(certifiedTime)
-                } else if (middleTime!! < certifiedTime && certifiedTime < endTime!!) {
-                    //지각
-                    Log.d(TAG, "지각")
-                    updateLatenessUI(certifiedTime)
-                }
-                Log.d(TAG, "로드")
+                loadUserCount()
+                loadCertificationStatus()
                 loadCertifications()
             }
         }
