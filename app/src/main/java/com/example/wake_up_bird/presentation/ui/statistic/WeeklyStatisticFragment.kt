@@ -3,8 +3,11 @@ package com.example.wake_up_bird.presentation.ui.statistic
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,16 +18,17 @@ import com.example.wake_up_bird.R
 import com.example.wake_up_bird.databinding.WeeklyStatisticBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import io.opencensus.tags.Tag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+
 
 class WeeklyStatisticFragment: Fragment() {
     private lateinit var db: FirebaseFirestore
@@ -32,6 +36,7 @@ class WeeklyStatisticFragment: Fragment() {
     private lateinit var upref: SharedPreferences
     private val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
     private var days: MutableList<Calendar> = mutableListOf()
+    private val numberFormat = NumberFormat.getNumberInstance(Locale.US)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,6 +78,16 @@ class WeeklyStatisticFragment: Fragment() {
         return binding.root
     }
 
+    fun convertDpToPx(dp: Int): Int {
+        return Math.round(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp.toFloat(),
+                getResources().displayMetrics
+            )
+        )
+    }
+
     private suspend fun updateTable() {
         val users = db.collection("user")
             .whereEqualTo("room_id", upref.getString("room_id", ""))
@@ -95,33 +110,49 @@ class WeeklyStatisticFragment: Fragment() {
 
         val tableLayout = binding.statisticTable
         tableLayout.removeAllViews()
-        var firstTableRow = TableRow(activity)
-        firstTableRow.layoutParams = TableRow.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
+        val tableCellLayoutParams = TableRow.LayoutParams(
+            convertDpToPx(80),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        firstTableRow.addView(TextView(activity))
+        tableCellLayoutParams.setMargins(1,1,1,1)
+        var firstTableRow = TableRow(activity)
+        firstTableRow.setBackgroundResource(R.color.background_color)
+        val blankCell = TextView(activity)
+        blankCell.setBackgroundResource(R.color.primary_color)
+        blankCell.setPadding(0,8,0,8)
+        firstTableRow.addView(blankCell)
         for (user in users.documents) {
             var firstTextView = TextView(activity)
+            firstTextView.setBackgroundResource(R.color.primary_color)
+            firstTextView.setTextColor(R.color.black_color)
+            firstTextView.setPadding(0,8,0,8)
+            firstTextView.setGravity(Gravity.CENTER)
+            firstTextView.layoutParams = tableCellLayoutParams
             firstTextView.text = user.getString("nickname")
+            firstTextView.typeface= Typeface.createFromAsset(activity?.assets !!, "binggrae_bold.ttf")
             firstTableRow.addView(firstTextView)
         }
         tableLayout.addView(firstTableRow)
 
+        var penalty=Array(users.size()) { 0 }
+
         for (nowDay in days) {
             var tableRow = TableRow(activity)
-            tableRow.layoutParams = TableRow.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+            tableRow.setBackgroundResource(R.color.gray_color)
             val certificationMap = certifications.documents.groupBy {
                 it.getString("certified_date")
             }
 
             val firstTextView = TextView(activity)
+            firstTextView.setBackgroundResource(R.color.background_color)
+            firstTextView.setTextColor(R.color.black_color)
+            firstTextView.setPadding(0,8,0,8)
+            firstTextView.setGravity(Gravity.CENTER)
+            firstTextView.layoutParams = tableCellLayoutParams
             firstTextView.text = SimpleDateFormat("MM/dd").format(nowDay.time)
+            firstTextView.typeface= Typeface.createFromAsset(activity?.assets !!, "binggrae_bold.ttf")
             tableRow.addView(firstTextView)
-            for (user in users) {
+            for ((index, user) in users.withIndex()) {
                 Log.d(TAG, certificationMap.keys.toString())
                 val certification =
                     certificationMap[SimpleDateFormat("yyyy-MM-dd").format(nowDay.time)]
@@ -129,14 +160,21 @@ class WeeklyStatisticFragment: Fragment() {
                             c.getString("user_id") == user.id
                         }
                 var textView = TextView(activity)
+                textView.setBackgroundResource(R.color.background_color)
+                textView.setPadding(0,8,0,8)
+                textView.setGravity(Gravity.CENTER)
+                textView.layoutParams = tableCellLayoutParams
+                textView.typeface= Typeface.createFromAsset(activity?.assets !!, "binggrae_regular.ttf")
                 if (nowDay.time.compareTo(Date())==-1&&certification == null) {
                     textView.text = "결석"
+                    penalty[index]= (penalty[index]+ myRoom.getLong("absentee_fee")!!).toInt()
                     textView.setTextColor(resources.getColor(R.color.red_color))
                 } else {
                     if (certification != null) {
                         if (myRoom.getString("middle_time")!! < certification.getString("certified_time")!!) {
                             textView.text = "지각"
                             textView.setTextColor(resources.getColor(R.color.blue_color))
+                            penalty[index]= (penalty[index]+ myRoom.getLong("late_fee")!!).toInt()
                         } else {
                             textView.text = "출석"
                             textView.setTextColor(resources.getColor(R.color.primary_color))
@@ -147,6 +185,29 @@ class WeeklyStatisticFragment: Fragment() {
             }
             tableLayout.addView(tableRow)
         }
+        var lastTableRow = TableRow(activity)
+        lastTableRow.setBackgroundResource(R.color.gray_color)
+        val blankCell2 = TextView(activity)
+        blankCell2.setBackgroundResource(R.color.sub_color)
+        blankCell2.setTextColor(R.color.black_color)
+        blankCell2.setPadding(0,8,0,8)
+        blankCell2.setGravity(Gravity.CENTER)
+        blankCell2.typeface= Typeface.createFromAsset(activity?.assets !!, "binggrae_regular.ttf")
+        blankCell2.text= "벌금"
+        lastTableRow.addView(blankCell2)
+        for (i in 0..users.size()-1) {
+            var lastTextView = TextView(activity)
+            lastTextView.setBackgroundResource(R.color.sub_color)
+            lastTextView.setTextColor(R.color.black_color)
+            lastTextView.setPadding(0,8,0,8)
+            lastTextView.setGravity(Gravity.CENTER)
+            lastTextView.layoutParams = tableCellLayoutParams
+            lastTextView.text = numberFormat.format(penalty[i])
+            lastTextView.typeface= Typeface.createFromAsset(activity?.assets !!, "binggrae_regular.ttf")
+            lastTableRow.addView(lastTextView)
+        }
+        tableLayout.addView(lastTableRow)
+        binding.totalPenalty.text="총 벌금 액수: "+numberFormat.format(penalty.sum())+"원"
     }
 
     private fun updateWeekRange() {
