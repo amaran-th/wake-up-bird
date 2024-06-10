@@ -27,14 +27,14 @@ class NavigationActivity : AppCompatActivity() {
 
         activeFragmentTag = savedInstanceState?.getString("activeFragmentTag") ?: TAG_ROOM
 
-        setFragment(activeFragmentTag ?: TAG_ROOM, RoomFragment())
+        setFragment(activeFragmentTag ?: TAG_ROOM)
 
         binding.navigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.statistic -> setFragment(TAG_STATISTIC, StatisticFragment())
-                R.id.room -> setFragment(TAG_ROOM, RoomFragment())
-                R.id.rest_time -> setFragment(TAG_REST_TIME, RestTimeFragment())
-                R.id.recognition -> setFragment(TAG_RECOGNITION, RecognitionFragment())
+                R.id.statistic -> setFragment(TAG_STATISTIC)
+                R.id.room -> setFragment(TAG_ROOM)
+                R.id.rest_time -> setFragment(TAG_REST_TIME)
+                R.id.recognition -> setFragment(TAG_RECOGNITION)
             }
             true
         }
@@ -45,39 +45,23 @@ class NavigationActivity : AppCompatActivity() {
         outState.putString("activeFragmentTag", activeFragmentTag)
     }
 
-    fun setFragment(tag: String, fragment: Fragment) {
+    fun setFragment(tag: String) {
         val manager: FragmentManager = supportFragmentManager
         val fragTransaction = manager.beginTransaction()
 
-        val currentFragment = manager.findFragmentByTag(tag)
-        if (currentFragment != null) {
-            fragTransaction.remove(currentFragment)
+        manager.fragments.forEach { fragment ->
+            fragTransaction.hide(fragment)
         }
 
-        fragTransaction.add(R.id.mainFrameLayout, fragment, tag)
-
-        val statistic = manager.findFragmentByTag(TAG_STATISTIC)
-        val room = manager.findFragmentByTag(TAG_ROOM)
-        val restTime = manager.findFragmentByTag(TAG_REST_TIME)
-        val recognition = manager.findFragmentByTag(TAG_RECOGNITION)
-
-        if (statistic != null) {
-            fragTransaction.hide(statistic)
+        val newFragment = when (tag) {
+            TAG_STATISTIC -> StatisticFragment()
+            TAG_ROOM -> RoomFragment()
+            TAG_REST_TIME -> RestTimeFragment()
+            TAG_RECOGNITION -> RecognitionFragment()
+            else -> throw IllegalArgumentException("Invalid fragment tag")
         }
 
-        if (room != null) {
-            fragTransaction.hide(room)
-        }
-
-        if (restTime != null) {
-            fragTransaction.hide(restTime)
-        }
-
-        if (recognition != null) {
-            fragTransaction.hide(recognition)
-        }
-
-        fragTransaction.show(fragment)
+        fragTransaction.add(R.id.mainFrameLayout, newFragment, tag)
         fragTransaction.commitAllowingStateLoss()
         activeFragmentTag = tag
     }

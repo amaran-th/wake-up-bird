@@ -34,7 +34,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         editor.putString("token", token).apply()
         editor.commit()
         Log.i("로그: ", "토큰 저장 성공")
-
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -52,16 +51,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 Handler(Looper.getMainLooper()).post {
                     if (currentActivity is NavigationActivity) {
                         val activeFragmentTag = currentActivity.activeFragmentTag
-                        currentActivity.recreate()
-                        Handler(Looper.getMainLooper()).post {
-                            if (activeFragmentTag != null) {
-                                when (activeFragmentTag) {
-                                    "statistic_fragment" -> currentActivity.setFragment("statistic_fragment", StatisticFragment())
-                                    "room_fragment" -> currentActivity.setFragment("room_fragment", RoomFragment())
-                                    "rest_time_fragment" -> currentActivity.setFragment("rest_time_fragment", RestTimeFragment())
-                                    "recognition_fragment" -> currentActivity.setFragment("recognition_fragment", RecognitionFragment())
-                                }
-                            }
+                        if (activeFragmentTag != null) {
+                            currentActivity.setFragment(activeFragmentTag)
                         }
                         Log.d(TAG, "NavigationActivity refreshed")
                     }
